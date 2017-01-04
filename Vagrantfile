@@ -18,12 +18,13 @@ Vagrant.configure(2) do |config|
     override.vm.box_url = 'https://github.com/devopsgroup-io/vagrant-digitalocean/raw/master/box/digital_ocean.box'
     provider.token = ENV['DIGITAL_OCEAN_TOKEN']
     provider.image = 'ubuntu-16-04-x64'
-    provider.region = 'ams2'
+    provider.region = ENV['DIGITAL_OCEAN_REGION']
     provider.size = '1gb'
-    provider.ssh_key_name = ENV['DIGITAL_OCEAN_SSH_KEY']
+    provider.ssh_key_name = ENV['DIGITAL_OCEAN_SSH_KEY_NAME']
   end
 
-  config.vm.provision 'shell', inline: <<-SHELL
-    sudo bash /vagrant/provision.sh
-  SHELL
+  config.vm.provision 'shell' do |s|
+    s.inline = 'sudo bash /vagrant/provision.sh $1'
+    s.args = [ENV['MOODLE_URL']]
+  end
 end
