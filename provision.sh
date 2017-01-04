@@ -101,9 +101,6 @@ service apache2 restart
 cat <<EOF
 Service installed at $1
 
-(VirtualBox only) You will need to add a hosts file entry for:
-moodle.local points to 192.168.33.10
-
 username: admin
 password: Admin1!
 
