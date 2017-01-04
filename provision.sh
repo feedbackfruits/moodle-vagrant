@@ -5,24 +5,24 @@ apt-get update
 apt-get -y upgrade
 echo "Installing required packages..."
 apt-get -y install \
-	apache2 \
-	libapache2-mod-php \
-	postgresql \
-	postgresql-client \
-	php-pgsql \
-	php-intl \
-	php-curl \
-	php-xmlrpc \
-	php-soap \
-	php-gd \
-	php-json \
-	php-cli \
-	php-mcrypt \
-	php-pear \
-	php-xsl \
-	php-zip \
-	php-mbstring \
-	git
+  apache2 \
+  libapache2-mod-php \
+  postgresql \
+  postgresql-client \
+  php-pgsql \
+  php-intl \
+  php-curl \
+  php-xmlrpc \
+  php-soap \
+  php-gd \
+  php-json \
+  php-cli \
+  php-mcrypt \
+  php-pear \
+  php-xsl \
+  php-zip \
+  php-mbstring \
+  git
 echo "Configuring Apache..."
 rm -rf /etc/apache2/sites-enabled
 rm -rf /etc/apache2/sites-available
@@ -43,7 +43,7 @@ IncludeOptional mods-enabled/*.conf
 Include ports.conf
 AccessFileName .htaccess
 <FilesMatch "^\.ht">
-	Require all denied
+  Require all denied
 </FilesMatch>
 LogFormat "%v:%p %h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
 LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
@@ -52,12 +52,12 @@ LogFormat "%{Referer}i -> %U" referer
 LogFormat "%{User-agent}i" agent
 IncludeOptional conf-enabled/*.conf
 <VirtualHost *:80>
-	ServerName moodle.local
-	DocumentRoot /var/www/moodle/html
-	<Directory /var/www/moodle/html>
-		Order allow,deny
-		Allow from All
-	</Directory>
+  ServerName moodle.local
+  DocumentRoot /var/www/moodle/html
+  <Directory /var/www/moodle/html>
+    Order allow,deny
+    Allow from All
+  </Directory>
 </VirtualHost>
 EOF
 echo "Creating database..."
@@ -83,27 +83,23 @@ LATEST_VERSION=$(git tag | awk '{print $1}' | grep -v '}$' | grep -v 'beta' | gr
 echo "Checking out Moodle version ${LATEST_VERSION}..."
 git checkout "tags/v${LATEST_VERSION}" -b "v${LATEST_VERSION}"
 echo "Installing Moodle..."
-MOODLE_URL=http://95.85.40.101
 php admin/cli/install.php \
-	--lang="en" \
-	--wwwroot="${MOODLE_URL}" \
-	--dataroot="/var/www/moodle/data" \
-	--dbtype="pgsql" \
-	--dbname="moodle" \
-	--dbuser="moodle" \
-	--fullname="Moodle" \
-	--shortname="moodle" \
-	--adminpass="Admin1!" \
-	--agree-license \
-	--non-interactive
+  --lang="en" \
+  --wwwroot="$1" \
+  --dataroot="/var/www/moodle/data" \
+  --dbtype="pgsql" \
+  --dbname="moodle" \
+  --dbuser="moodle" \
+  --fullname="Moodle" \
+  --shortname="moodle" \
+  --adminpass="Admin1!" \
+  --agree-license \
+  --non-interactive
 chown www-data:www-data -R /var/www/moodle
 echo "Restarting Apache..."
 service apache2 restart
 cat <<EOF
-Service installed at ${MOODLE_URL}
-
-(VirtualBox only) You will need to add a hosts file entry for:
-moodle.local points to 192.168.33.10
+Service installed at $1
 
 username: admin
 password: Admin1!

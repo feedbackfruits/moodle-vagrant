@@ -1,31 +1,32 @@
 # moodle-vagrant
 Moodle Vagrant installer (Ubuntu 16.04, Apache, PHP7, PostgreSQL, Latest Moodle)
 
-This is perfect for local testing and development installations.
+## Requirements:
 
-Requirements:
+- Vagrant (https://www.vagrantup.com/downloads.html)
+- vagrant-env (https://github.com/gosuri/vagrant-env)
 
-- Vagrant ( https://www.vagrantup.com/downloads.html )
-- vagrant-vbguest ( https://github.com/dotless-de/vagrant-vbguest )
-- VirtualBox ( https://www.virtualbox.org/ )
+## Usage instructions:
 
-Usage instructions:
-
-- Clone moodle-vagrant:
-
-git clone https://github.com/digitalsparky/moodle-vagrant.git
-
+- Clone moodle-vagrant: `git clone https://github.com/feedbackfruits/moodle-vagrant.git`
 - Change to moodle-vagrant directory
-- Execute vagrant:
 
-vagrant up
+### For VirtualBox
 
-Moodle will be available at http://moodle.local/
+- Install the vagrant-vbguest plugin (https://github.com/dotless-de/vagrant-vbguest)
+- Install VirtualBox (https://www.virtualbox.org/)
+- Setup your .env file with the desired url for MOODLE_URL
+- Execute vagrant: `vagrant up --provider=virtualbox`
+- You will need to add a hosts file entry for: MOODLE_URL points to 192.168.33.10
 
-You will need to add a hosts file entry for:
-moodle.local points to 192.168.33.10
+### For Digital Ocean
 
-Authentication Details:
+- Install the vagrant-digitalocean plugin (https://github.com/devopsgroup-io/vagrant-digitalocean)
+- Setup your .env file with the variables described on .env.example
+- Execute vagrant: `vagrant up --provider=digital_ocean`
+- You will need to add a hosts file entry for: MOODLE_URL points to just created droplet URL
+
+## Authentication Details:
 
 - username: admin
 - password: Admin1!
